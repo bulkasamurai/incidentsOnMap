@@ -1,0 +1,23 @@
+<div class="incidentsList">
+    <div class="filter">
+        <input type="text"
+               class="form-control"
+               ng-model="search"
+               ng-change="vm.searchFilter()"
+               placeholder="Поиск">
+    </div>
+
+    <div class="filterSelect">
+        <select class="form-control" ng-options="value as value.name for (key,value) in vm.incidentFilters"
+                ng-model="selected">
+        </select>
+    </div>
+
+    <div loader ng-if="!vm.incidents.length">
+    </div>
+
+    <incident ng-repeat="incident in vm.incidents | incidentPlace: selected.condition | filter: search"
+              incident-model="incident"
+              ng-if="vm.incidents.length">
+    </incident>
+</div>

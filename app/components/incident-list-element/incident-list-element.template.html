@@ -1,0 +1,16 @@
+<div class="incidents">
+    <div class="info">
+        <p><b>{{vm.incidentModel['Номер']}}</b></p>
+        <p><b>{{vm.incidentModel['Клиент'] | textLimiter: 30}}</b></p>
+    </div>
+    <a href="#/edit/{{vm.incidentModel['Номер']}}"
+       class="btn btn-default details"
+       ng-click="showOnMap(vm.incidentModel['Номер'])">
+        Редактировать
+    </a>
+    <span class="glyphicon glyphicon-map-marker"
+          aria-hidden="true"
+          ng-click="showOnMap(vm.incidentModel['Номер'])">
+            <!--ng-if="incident.coordinates"-->
+    </span>
+</div>

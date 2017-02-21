@@ -1,0 +1,15 @@
+<div class="incidentInfo">
+    <form class="form-group">
+        <div ng-repeat="(key, value) in vm.incidentInputLabels">
+            <label for="{{key}}">{{value}}</label>
+            <input type="text"
+                   ng-readonly="key == 'Номер' || key == 'ДатаСоздания'"
+                   name="{{key}}"
+                   id="{{key}}"
+                   class="form-control"
+                   ng-model="vm.incident[key]">
+        </div>
+    </form>
+    <a type="submit" href="#/incidents" id="close" class="btn bg-primary">Закрыть</a>
+    <a id="save" href="#/incidents" class="btn bg-primary" ng-click="vm.updateIncident()">Сохранить</a>
+</div>
