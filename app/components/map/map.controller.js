@@ -5,17 +5,18 @@
     angular.module('mapApp')
         .controller('mapController', mapController);
 
-    mapController.$inject = ['$element', '$scope', 'incidentCustomEvents', 'mapMessages', 'mapService'];
+    mapController.$inject = ['$element', '$scope', 'incidentCustomEvents', 'mapMessages', 'mapService', 'incidentsService'];
 
     /* @ngInject */
-    function mapController($element, $scope, incidentCustomEvents, mapMessages, mapService) {
+    function mapController($element, $scope, incidentCustomEvents, mapMessages, mapService, incidentsService) {
 
         ymaps.ready(init);
 
         function init() {
 
-            var initialCenter = [53.902249, 27.561908];
+            incidentsService.subscribeToUpdates(updateIncidents);
 
+            var initialCenter = [53.902249, 27.561908];
 
             var gmap = new ymaps.Map($element[0], {
                     center: initialCenter,
@@ -28,10 +29,12 @@
                     "<b>{{ properties.executor }}</b>" +
                     "</div>");
 
-
             /////////////////////////////////////
 
-            $scope.$on(incidentCustomEvents.INCIDENT_LOADED, function (event, incidents) {
+            function updateIncidents(incidents) {
+                mapService.getAllIncidentsMarkers().forEach(function (incidentMarker) {
+                    incidentMarker.marker.options.set('visible', false);
+                });
                 incidents.forEach(function (incident) {
                     var incidentMarker = mapService.getIncidentMarkerById(incident.Номер);
                     if (!incidentMarker || incidentMarker.incident.АдресУстановки !== incident.АдресУстановки) {
@@ -43,11 +46,11 @@
                             }
                         });
                     }
+                    else incidentMarker.marker.options.set('visible', true);
                 });
                 gmap.zoomRange.get(initialCenter);
                 gmap.setCenter(initialCenter, 12);
-
-            });
+            }
 
             $scope.$on(incidentCustomEvents.SHOW_INCIDENT_ON_MAP, function (event, Номер) {
                 var incidentMarker = mapService.getIncidentMarkerById(Номер);

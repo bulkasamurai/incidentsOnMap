@@ -5,12 +5,6 @@
     angular
         .module('mapApp')
         .constant('incidentFilterConfig', {
-            ALL: {
-                name: "Все",
-                condition: function (incidents) {
-                    return incidents;
-                }
-            },
             OFFICE: {
                 name: "Офис",
                 condition: function (incident) {
@@ -30,7 +24,7 @@
                 }
             },
             TODAY: {
-                name: "Сегоднящние",
+                name: "Сегодняшние",
                 condition: function (incident) {
                     return new Date(incident.ДатаПовторнойРеакции).toDateString() === new Date().toDateString() && incident.ТекущийИсполнитель === 'Minsk_ELBA';
                 }

@@ -13,6 +13,7 @@
 
         return {
             addIncidentMarker: addIncidentMarker,
+            getAllIncidentsMarkers: getAllIncidentsMarkers,
             getIncidentMarkerById: getIncidentMarkerById,
             getPosition: getPosition
         };
@@ -46,6 +47,10 @@
                 }
             });
             incidentMarkers.push(incidentMarker);
+        }
+
+        function getAllIncidentsMarkers() {
+            return incidentMarkers;
         }
 
         function getIncidentMarkerById(Номер) {

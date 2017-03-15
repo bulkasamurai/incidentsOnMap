@@ -8,12 +8,14 @@
     </div>
 
     <div class="filterSelect">
-        <select class="form-control" ng-options="value as value.name for (key,value) in vm.incidentFilters"
-                ng-model="selected">
+        <select class="form-control" ng-options="key as value for (key, value) in vm.incidentsFilters"
+                ng-model="vm.selectedIncidentsFilter"
+                ng-change="vm.incidentsFilterChanged(vm.selectedIncidentsFilter)">
+            <option value="" selected>Все</option>
         </select>
     </div>
 
-    <incident ng-repeat="incident in vm.incidents | incidentPlace: selected.condition | filter: search"
+    <incident ng-repeat="incident in vm.incidents | filter: search"
               incident-model="incident"
               ng-if="vm.incidents.length">
     </incident>

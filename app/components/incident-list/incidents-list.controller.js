@@ -5,22 +5,22 @@
     angular.module('mapApp')
         .controller("incidentListController", incidentListController);
 
-    incidentListController.$inject = ['incidentsService', '$scope', 'incidentCustomEvents', 'incidentFilterConfig', 'loginService'];
+    incidentListController.$inject = ['incidentsService', '$scope', 'incidentCustomEvents', 'loginService'];
 
     /* @ngInject */
-    function incidentListController(incidentsService, $scope, incidentCustomEvents, incidentFilterConfig, loginService) {
+    function incidentListController(incidentsService, $scope, incidentCustomEvents, loginService) {
 
         var vm = this;
         var user = loginService.isLoggedIn();
 
         vm.incidents = [];
         vm.incidentsLoading = false;
-        vm.incidentFilters = incidentFilterConfig;
-        vm.currentFilterPlace = vm.incidentFilters.ALL.condition;
-        $scope.selected = incidentFilterConfig.ALL; // todo: !!!
+        vm.incidentsFilters = incidentsService.getAvailableFilters();
+        vm.selectedIncidentsFilter = "";
 
         vm.showOnMap = showOnMap;
         vm.searchFilter = searchFilter;
+        vm.incidentsFilterChanged = incidentsFilterChanged;
 
         init();
 
@@ -30,14 +30,13 @@
             loadAllIncidents(user);
         }
 
-        function loadAllIncidents(user, forceUpdate) {
+        function loadAllIncidents(user, filter, forceUpdate) {
             vm.incidentsLoading = true;
-            incidentsService.getAllIncidents(user, forceUpdate).then(successIncidentsLoading);
+            incidentsService.getAllIncidents(user, filter, forceUpdate).then(successIncidentsLoading);
         }
 
         function successIncidentsLoading(res) {
             vm.incidents = res;
-            $scope.$emit(incidentCustomEvents.INCIDENT_LOADED, vm.incidents);
             vm.incidentsLoading = false;
         }
 
@@ -50,7 +49,12 @@
         }
 
         $scope.$on(incidentCustomEvents.REFRESH_INCIDENTS, function () {
-            loadAllIncidents(user, true);
+            loadAllIncidents(user, vm.selectedIncidentsFilter, true);
         });
+
+        function incidentsFilterChanged(filter) {
+            incidentsService.getAllIncidents(user, filter).then(successIncidentsLoading);
+        }
+
     }
 })();
