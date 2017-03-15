@@ -20,7 +20,7 @@
 
         vm.signIn = signIn;
 
-        ////////////
+        /////////////////////////
 
         function signIn(login, password) {
             if(loginService.signIn(login, password)){
@@ -30,7 +30,6 @@
                 vm.errorText = loginFormCustomEvents.ERROR_MESSAGE;
             }
         }
-
     }
 
 })();

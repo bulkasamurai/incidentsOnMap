@@ -7,7 +7,7 @@
 
     mapService.$inject = ['$q', 'mapMessages'];
 
-    function mapService($q, mapMessages) {
+    function mapService($q) {
 
         var incidentMarkers = [];
 
@@ -26,7 +26,10 @@
                 [51.610673, 23.317332],
                 [56.114210, 31.962576]
             ]);
-            deferred.resolve(ymaps.geocode(address, {boundedBy: gmap.getBounds(), strictBounds: true}).then(function (res) {
+            deferred.resolve(ymaps.geocode(address, {
+                boundedBy: gmap.getBounds(),
+                strictBounds: true
+            }).then(function (res) {
                 return res.geoObjects.get(0).geometry.getCoordinates();
             }));
 
@@ -50,5 +53,6 @@
                 return incidentMarker.incident.Номер == Номер;
             })[0];
         }
+
     }
 })();

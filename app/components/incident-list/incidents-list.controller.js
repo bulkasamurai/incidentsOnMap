@@ -14,8 +14,10 @@
         var user = loginService.isLoggedIn();
 
         vm.incidents = [];
+        vm.incidentsLoading = false;
         vm.incidentFilters = incidentFilterConfig;
         vm.currentFilterPlace = vm.incidentFilters.ALL.condition;
+        $scope.selected = incidentFilterConfig.ALL; // todo: !!!
 
         vm.showOnMap = showOnMap;
         vm.searchFilter = searchFilter;
@@ -25,33 +27,30 @@
         /////////////////////////
 
         function init() {
-            requestAnswer(incidentsService.getAllIncidents(user));
-            /*incidentsService.getAllIncidents(user).then(function (res) {
-                vm.incidents = res;
-                $scope.$emit(incidentCustomEvents.INCIDENT_LOADED, vm.incidents);
-            });*/
+            loadAllIncidents(user);
         }
 
-        function requestAnswer(fn) {
-            fn.then(function (res) {
-                vm.incidents = res;
-                $scope.$emit(incidentCustomEvents.INCIDENT_LOADED, vm.incidents);
-            });
+        function loadAllIncidents(user, forceUpdate) {
+            vm.incidentsLoading = true;
+            incidentsService.getAllIncidents(user, forceUpdate).then(successIncidentsLoading);
+        }
+
+        function successIncidentsLoading(res) {
+            vm.incidents = res;
+            $scope.$emit(incidentCustomEvents.INCIDENT_LOADED, vm.incidents);
+            vm.incidentsLoading = false;
         }
 
         function showOnMap(Номер) {
             $scope.$emit(incidentCustomEvents.SHOW_INCIDENT_ON_MAP, Номер);
         }
 
-        function searchFilter () {
+        function searchFilter() {
             return vm.search;
         }
 
-        $scope.selected = incidentFilterConfig.ALL;
-
         $scope.$on(incidentCustomEvents.REFRESH_INCIDENTS, function () {
-            vm.incidents = [];
-            requestAnswer(incidentsService.incidentRequest(user));
-        })
+            loadAllIncidents(user, true);
+        });
     }
 })();

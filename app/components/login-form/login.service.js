@@ -9,13 +9,10 @@
 
         var users = [
             {
-                login: 'Сазонов',
+                login: 'СазоновАА',
                 password: 'qwerty'
             },
-            {
-                login: 'Хмаро',
-                password: '123456'
-            }
+
         ];
 
         var loggedIn = false;
@@ -25,7 +22,7 @@
             signIn: signIn
         };
 
-        ///////////////////
+        ////////////////////////
 
         function isLoggedIn() {
             return loggedIn;

@@ -1,6 +1,16 @@
-<form class="login">
-    <input ng-model="vm.user.login" type="text" name="login" class="form-control loginContent" placeholder="Логин">
-    <input ng-model="vm.user.password" type="password" name="password" class="form-control loginContent" placeholder="Пароль">
-    <a ng-click="vm.signIn(vm.user.login, vm.user.password)" class="btn btn-primary loginContent">Войти</a>
+<form class="login"
+      ng-keypress="($event.which === 13)?vm.signIn(vm.user.login, vm.user.password):0">
+    <input ng-model="vm.user.login"
+           type="text"
+           name="login"
+           class="form-control loginContent"
+           placeholder="Логин"
+           autofocus>
+    <input ng-model="vm.user.password"
+           type="password" name="password"
+           class="form-control loginContent"
+           placeholder="Пароль">
+    <a ng-click="vm.signIn(vm.user.login, vm.user.password)"
+       class="btn btn-primary loginContent">Войти</a>
     <div class="loginContent errorMessage">{{vm.errorText}}</div>
 </form>

@@ -30,12 +30,13 @@
     <script src="components/map/map.service.js"></script>
 
     <script src="components/nav-element/nav-element.controller.js"></script>
+    <script src="components/nav-element/nav-element.directive.js"></script>
 
-    <script src="components/loader-element/loader-element.directive.js"></script>
+    <script src="components/loading-bar/loading-bar.directive.js"></script>
 
     <script src="components/login-form/login-form.controller.js"></script>
     <script src="components/login-form/login.service.js"></script>
-    <script src="components/login-form/login-form-custom-enents.constant.js"></script>
+    <script src="components/login-form/login-form-custom-events.constant.js"></script>
 
     <script src="components/incident-list-element/incident-list-element.controller.js"></script>
     <script src="components/incident-list-element/incident-list-element.directive.js"></script>
@@ -54,16 +55,11 @@
 </head>
 <body ng-app="mapApp">
 
-    <nav class="navbar-inverse navbar-fixed-top" ng-controller="navElementController as vm">
-        <span class="navIcon glyphicon glyphicon-list"
-              aria-hidden="true"
-              ng-click="vm.refresh()">
-                <!--ng-if=""-->
-    </span>
-    </nav>
-
-    <div class="sidePanel slide" ng-view></div>
-    <map></map>
+<nav nav-element
+     class="navbar-inverse"
+     ng-controller="navElementController as vm"></nav>
+<div class="sidePanel slide" ng-view></div>
+<map></map>
 
 </body>
 </html>

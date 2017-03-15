@@ -1,4 +1,4 @@
-<div class="incidentsList">
+<div loading-bar="vm.incidentsLoading" loading-bar-title="Загрузка инцидентов" class="incidentsList">
     <div class="filter">
         <input type="text"
                class="form-control"
@@ -11,9 +11,6 @@
         <select class="form-control" ng-options="value as value.name for (key,value) in vm.incidentFilters"
                 ng-model="selected">
         </select>
-    </div>
-
-    <div loader ng-if="!vm.incidents.length">
     </div>
 
     <incident ng-repeat="incident in vm.incidents | incidentPlace: selected.condition | filter: search"

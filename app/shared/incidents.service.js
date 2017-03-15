@@ -5,46 +5,39 @@
     angular.module('mapApp')
         .factory('incidentsService', incidentsService);
 
-    incidentsService.$inject = ['$timeout', '$http'];
+    incidentsService.$inject = ['$q', '$http'];
 
-    function incidentsService($timeout, $http) {
+    function incidentsService($q, $http) {
 
         var incidents = [];
 
         return {
-
             getIncidentById: getIncidentById,
             saveIncident: saveIncident,
-            getAllIncidents: getAllIncidents,
-            incidentRequest: incidentRequest
+            getAllIncidents: getAllIncidents
         };
 
         ///////////////////
 
-        function getAllIncidents(user) {
-            if (incidents.length > 0) {
-                return $timeout(function () {
-                    return incidents;
-                })
+        function getAllIncidents(user, forceUpdate) {
+            forceUpdate = forceUpdate || false;
+            if (incidents.length > 0 && !forceUpdate) {
+                return $q.when(incidents);
             }
             else {
-                return incidentRequest(user);
+                return $http.get("http://localhost:3000/shared/incidents.json")
+                    .then(function (response) {
+                        return incidents = response.data.incidents;
+                    });
             }
-        }
-
-        function incidentRequest(user) {
-            return $http.get("http://localhost:3000/shared/incidents.json")
-                .then(function (response) {
-                    return incidents = response.data.incidents;
-                });
         }
 
         function getIncidentById(Номер) {
-            return $timeout(function () {
+            return $q.when(function () {
                 return angular.copy(incidents.filter(function (incident) {
                     return parseInt(incident.Номер.substr(5)) == parseInt(Номер.substr(5));
                 })[0]);
-            }, 100);
+            }());
         }
 
         function saveIncident(updatedIncident) {

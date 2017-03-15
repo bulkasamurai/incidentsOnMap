@@ -4,14 +4,14 @@
 
     angular
         .module('mapApp')
-        .directive('loader', loaderElement);
+        .directive('navElement', navElement);
 
     /* @ngInject */
-    function loaderElement() {
+    function navElement() {
         return {
             restrict: 'A',
             scope: true,
-            templateUrl: 'components/loader-element/loader-element.template.html'
+            templateUrl: 'components/nav-element/nav-element.template.html'
         };
     }
 })();
