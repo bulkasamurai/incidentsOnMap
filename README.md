@@ -1,4 +1,4 @@
 # incidentsOnMap
-AngularJS SPA (based on https://github.com/swymmwys/ShopManager)
+AngularJS SPA
 
 Use npm start for launch
